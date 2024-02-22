@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #092635;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .box {
+            background-color: #1B4242;
+            width: 400px;
+            height: 300px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box img {
+            width: 400px;
+            height: 300px;
+            border-radius: 20px;
+           object-fit: cover;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .box img:hover {
+            /* opacity: 50%; */
+            /* filter: blur(1px); */
+            filter: grayscale(100%);
+            background-color: white;
+            background: rgb(241, 236, 236);
+            background: rgba(245, 232, 232, 0.5);
+            transition: 0.5s ease-in-out;   
+        }
+
+        .box i {
+            font-size: 3.5rem;
+        }
+
+        .box h2 {
+            font-size: 2rem;
+            padding: 10px;
+        }
+
+        button {
+            background-color: #1e4134;
+            color: white;
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <input type="file" id="file" accept="image/*" onchange="displayImage()" hidden>
+        <div class="box" id="imgBox">
+            <label for="file">
+                <i class='bx bx-cloud-upload'></i>
+                <h2>Upload Image</h2>
+                <p>All types of images are supported</p>
+                <img id="selectedImage" alt="Selected Image">
+            </label>
+        </div>
+        <button onclick="uploadFile()">Select Image</button>
+    </div>
+    <script>
+        function uploadFile() {
+            var fileInput = document.getElementById('file');
+            fileInput.click(); // Trigger file input click
+        }
+
+        function displayImage() {
+            const fileInput = document.getElementById('file');
+            const statusElement = document.getElementById('imgBox');
+            const labelElement = statusElement.querySelector('label');
+            const selectedImage = labelElement.querySelector('#selectedImage');
+            const icon = document.querySelector(".bx-cloud-upload");
+            const heading = document.querySelector("h2");
+            const para = document.querySelector("p");
+
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    selectedImage.src = e.target.result;
+
+                    icon.style.display = "none";
+                    heading.style.display = "none";
+                    para.style.display = "none";
+                    reader.style.height = "300px";
+                    reader.style.width = "400px";
+                }
+                reader.readAsDataURL(file);
+            } else {
+                labelElement.innerHTML = `
+                    <i class='bx bx-cloud-upload'></i>
+                    <h2>Upload Image</h2>
+                    <p>all types of images are supported</p>`;
+            }
+        }
+    </script>
+</body>
+
+</html>
